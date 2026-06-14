@@ -47,7 +47,8 @@ export async function register(formData: FormData) {
     }
 
     // 2. Action: Create a new user in Strapi
-    const strapiRes = await fetch('http://127.0.0.1:1337/api/auth/local/register', {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:1337/api';
+    const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),
