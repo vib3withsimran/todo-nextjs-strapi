@@ -50,24 +50,37 @@ export default function Home() {
     e.preventDefault();
     if (!title.trim()) return;
 
-    const data = await createTodo(token!, title, description, user.id);
-    if (data.data) {
-      setTitle('');
-      setDescription('');
-      await loadTodos();
+    try {
+      const data = await createTodo(token!, title, description, user.id);
+      if (data.data) {
+        setTitle('');
+        setDescription('');
+        await loadTodos();
+      }
+    } catch (error) {
+      console.error("Error creating todo:", error);
+      alert("Session expired or unauthorized. Please log out and log in again.");
     }
   };
 
   const deleteHandler = async (todo: Todo) => {
-    const identifier = todo.documentId || todo.id.toString();
-    await deleteTodo(token!, identifier);
-    await loadTodos();
+    try {
+      const identifier = todo.documentId || todo.id.toString();
+      await deleteTodo(token!, identifier);
+      await loadTodos();
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   }
 
   const completeHandler = async (todo: Todo) => {
-    const identifier = todo.documentId || todo.id.toString();
-    await updateTodoStatus(token!, identifier, true);
-    await loadTodos();
+    try {
+      const identifier = todo.documentId || todo.id.toString();
+      await updateTodoStatus(token!, identifier, true);
+      await loadTodos();
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
   }
 
   let renderTask: React.ReactNode = <h2 className="text-center text-zinc-500 italic py-10 text-xl"> No tasks pending. You're all caught up! </h2>
@@ -99,8 +112,8 @@ export default function Home() {
         <div className="flex justify-end mb-4">
           <button onClick={() => {
             localStorage.clear();
-            router.push('/signin');
-          }} className="text-zinc-400 hover:text-white text-sm">Logout</button>
+            window.location.href = '/signin';
+          }} className="text-zinc-400 hover:text-white text-sm px-4 py-2 bg-zinc-800 rounded-md">Logout</button>
         </div>
 
         <h1 className="text-5xl text-center mb-10 font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 to-zinc-500">Todo List</h1>
