@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { API_BASE_URL } from "@/config/api";
 
 const secretKey = 'secret';
 const key = new TextEncoder().encode(secretKey);
@@ -47,8 +48,7 @@ export async function register(formData: FormData) {
     }
 
     // 2. Action: Create a new user in Strapi
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:1337/api';
-    const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
+    const strapiRes = await fetch(`${API_BASE_URL}/auth/local/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),
