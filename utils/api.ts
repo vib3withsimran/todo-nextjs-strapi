@@ -1,4 +1,6 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:1337/api';
+import { API_BASE_URL } from '@/config/api';
+
+const API_URL = API_BASE_URL;
 
 export const registerUser = async (username: string, email: string, password: string) => {
   const response = await fetch(`${API_URL}/auth/local/register`, {
