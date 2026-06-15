@@ -105,15 +105,17 @@ export default function Home() {
     });
   }
 
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push('/signin');
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 py-12 px-4 font-sans selection:bg-indigo-500/30">
       <div className="max-w-4xl mx-auto">
         {/* Logout Button */}
         <div className="flex justify-end mb-4">
-          <button onClick={() => {
-            localStorage.clear();
-            window.location.href = '/signin';
-          }} className="text-zinc-400 hover:text-white text-sm px-4 py-2 bg-zinc-800 rounded-md">Logout</button>
+          <button onClick={handleLogout} className="text-zinc-400 hover:text-white text-sm px-4 py-2 bg-zinc-800 rounded-md">Logout</button>
         </div>
 
         <h1 className="text-5xl text-center mb-10 font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 to-zinc-500">Todo List</h1>
